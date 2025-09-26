@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital-Circular-demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="left">
+      <span class="logo">Digital-Circular-demo</span>
+      <nav class="tabs" id="navTabs" hidden>
+        <button data-tab="home" class="tab active">ホーム</button>
+        <button data-tab="new" class="tab">新規投稿</button>
+        <button data-tab="groups" class="tab">グループ</button>
+      </nav>
+    </div>
+    <div class="right">
+      <div id="notif" class="notif" title="未読っぽい通知">0</div>
+      <div class="menu">
+        <button id="userButton" class="user-btn">未ログイン</button>
+        <div id="menuPanel" class="menu-panel" hidden>
+          <div class="menu-section">
+            <div class="menu-title">ユーザー</div>
+            <div id="userInfo"></div>
+            <button id="logoutBtn" class="menu-item">ログアウト</button>
+          </div>
+          <div class="menu-section">
+            <div class="menu-title">設定</div>
+            <button id="seedBtn" class="menu-item">データ初期化（サンプル投入）</button>
+            <button id="exportBtn" class="menu-item">データ書き出し(JSON)</button>
+            <label class="menu-item file">
+              データ読み込み(JSON)
+              <input type="file" id="importInput" accept="application/json">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="app">
+    <section id="loginView" class="view">
+      <h1>オンライン回覧板・簡易デモ</h1>
+      <p class="muted">役員 / 一般 / ゲスト でログインして体験。URLクエリによる自動ログインも対応しています。</p>
+
+      <div class="login-card">
+        <label>ニックネーム</label>
+        <input id="loginName" type="text" placeholder="例：デモ 一般">
+        <label>所属グループ</label>
+        <select id="loginGroup">
+          <option value="A班">A班</option>
+          <option value="B班">B班</option>
+          <option value="C班">C班</option>
+          <option value="全体">全体</option>
+        </select>
+        <div class="roles">
+          <label><input type="radio" name="role" value="officer"> 役員</label>
+          <label><input type="radio" name="role" value="member" checked> 一般</label>
+          <label><input type="radio" name="role" value="guest"> ゲスト</label>
+        </div>
+        <button id="loginBtn" class="primary">ログイン</button>
+      </div>
+    </section>
+
+    <section id="homeView" class="view" hidden>
+      <div class="toolbar">
+        <input id="searchInput" type="search" placeholder="検索: タイトル、本文、タグ">
+        <select id="groupFilter">
+          <option value="">すべてのグループ</option>
+        </select>
+        <span id="roleBadge" class="badge"></span>
+      </div>
+      <div id="feed"></div>
+    </section>
+
+    <section id="newView" class="view" hidden>
+      <h2>新規投稿（役員のみ）</h2>
+      <form id="newForm" class="form">
+        <label>タイトル<input name="title" required maxlength="64"></label>
+        <label>本文<textarea name="body" rows="6" required></textarea></label>
+        <label>タグ（カンマ区切り）<input name="tags" placeholder="例: 防災, 清掃, 回覧板"></label>
+        <label>対象グループ
+          <select name="group" required>
+            <option value="全体">全体</option>
+            <option value="A班">A班</option>
+            <option value="B班">B班</option>
+            <option value="C班">C班</option>
+          </select>
+        </label>
+        <div class="row">
+          <label class="check"><input type="checkbox" name="requireConfirm" checked> 確認ボタンを必須にする</label>
+          <label class="check"><input type="checkbox" name="allowComments" checked> コメントを許可</label>
+        </div>
+        <button class="primary">投稿する</button>
+      </form>
+    </section>
+
+    <section id="groupsView" class="view" hidden>
+      <h2>グループ</h2>
+      <p class="muted">グループは A/B/C 班の簡易モデルです。ホーム画面のフィルタで切り替えられます。</p>
+      <ul class="group-list">
+        <li>A班 … 清掃・防犯担当</li>
+        <li>B班 … 子ども会・イベント担当</li>
+        <li>C班 … 防災・避難訓練担当</li>
+      </ul>
+    </section>
+
+    <dialog id="postDialog">
+      <div id="postDetail"></div>
+      <div class="dialog-actions">
+        <button id="closeDialog">閉じる</button>
+      </div>
+    </dialog>
+  </main>
+
+  <footer class="app-footer">
+    <span>Digital-Circular-demo — 非公式デモ</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
